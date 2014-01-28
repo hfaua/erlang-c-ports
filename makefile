@@ -7,7 +7,7 @@ LDFLAGS +=
 #
 SOURCES = $(wildcard src/*.c)
 OBJECTS = $(patsubst src/%.c, obj/%.o, $(SOURCES))
-BINARY = out/test
+BINARY = bin/test
 
 #
 # Build rules
@@ -15,14 +15,14 @@ BINARY = out/test
 all: $(BINARY)
 
 clean:
-	rm -rf out
+	rm -rf bin
 	rm -rf obj
 
 run: $(BINARY)
 	exec $(BINARY)
 
 $(BINARY): $(OBJECTS)
-	mkdir -p out
+	mkdir -p bin
 	$(CC) $(LDFLAGS) $^ -o $@
 
 obj/%.o: src/%.c
