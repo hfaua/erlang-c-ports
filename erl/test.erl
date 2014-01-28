@@ -10,7 +10,7 @@ stop() ->
 compute(Message) ->
     process ! {call, self(), Message},
     receive
-	{process, Result} ->
+	{response, Result} ->
 	    Result
     end.
 
@@ -26,7 +26,7 @@ loop(Port) ->
 	    Port ! {self(), {command, Message}},
 	    receive
 		{Port, {data, Data}} ->
-		    Caller ! {process, Data}
+		    Caller ! {response, Data}
 	    end,
 	    loop(Port);
 	stop ->
@@ -35,6 +35,6 @@ loop(Port) ->
 		{Port, closed} ->
 		    exit(normal)
 	    end;
-	{'EXIT', Port, Reason} ->
+	{'EXIT', Port, _} ->
 	    exit(port_terminated)
     end.
